@@ -1,7 +1,7 @@
 package kz.elastic.sample;
 
 import kz.elastic.sample.elastic.ElasticSearch;
-import kz.elastic.sample.model.Human;
+import kz.elastic.sample.model.*;
 import kz.elastic.sample.register.ElasticRegister;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.client.RequestOptions;
@@ -20,27 +20,50 @@ import java.time.LocalDate;
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class SampleApplicationTests {
 
+  // region Autowired fields
   @Autowired
   private ElasticRegister elasticRegister;
+  // endregion
 
   @Test
   void addHuman() throws Exception {
 
-    var human = new Human();
-    human.id = "jfg1i038c1";
-    human.name = "Bergen";
-    human.surname = "Juanyshev";
-    human.age = 26;
-    human.birthDay = LocalDate.of(1994, 8, 27);
+    var personage = new Personage();
+
+    personage.id = "h8enwt9fqp";
+
+    personage.name = "Roronoa Zoro";
+    personage.alias = "Zoro-juurou";
+    personage.epithet = "Pirate Hunter Zoro";
+
+    personage.age = 21;
+    personage.height = 181;
+    personage.birthday = LocalDate.of(1994, 11, 11);
+
+    var affiliation = new Affiliation();
+    affiliation.id = "eug08jvluo";
+    affiliation.name = "Straw Hat Pirates";
+    affiliation.captain = "Monkey D. Luffy";
+    affiliation.shipName = "Thousand Sunny";
+    affiliation.bounty = 3_161_000_100L;
+
+    personage.affiliations.add(affiliation);
+
+    personage.actor = new VoiceActor();
+    personage.actor.surname = "Nakai";
+    personage.actor.name = "Kazuya";
+
+    personage.bloodType = BloodType.XF;
+    personage.bounty = 320_000_000L;
+    personage.status = Status.ALIVE;
 
     //
     //
-    elasticRegister.addHuman(human);
+    elasticRegister.addPersonage(personage);
     //
     //
 
@@ -55,21 +78,10 @@ class SampleApplicationTests {
     printMappings(indexMatchMappings);
 
     var getRequest = new GetRequest(ElasticSearch.index());
-    getRequest.id(human.id);
+    getRequest.id(personage.id);
     var getResponse = ElasticSearch.client().get(getRequest, RequestOptions.DEFAULT);
 
     System.out.println("KbKj71IqrJ :: getResponse.source() = " + prettyJson(getResponse.getSourceAsString()));
-
-    Map<String, Object> source = getResponse.getSource();
-    var name = source.get(Human.ES_NAME);
-    var surname = source.get(Human.ES_SURNAME);
-    var age = source.get(Human.ES_AGE);
-    var birthDay = source.get(Human.ES_BIRTH_DAY);
-
-    assertThat(name).isEqualTo(human.name);
-    assertThat(surname).isEqualTo(human.surname);
-    assertThat(age).isEqualTo(human.age);
-    assertThat(birthDay).isEqualTo(human.birthDay.toString());
   }
 
   protected void printSettings(Settings settings) {

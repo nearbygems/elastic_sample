@@ -1,7 +1,9 @@
 package kz.elastic.sample.impl;
 
 import kz.elastic.sample.elastic.ElasticSearch;
-import kz.elastic.sample.model.Human;
+import kz.elastic.sample.model.Affiliation;
+import kz.elastic.sample.model.Personage;
+import kz.elastic.sample.model.VoiceActor;
 import kz.elastic.sample.register.ElasticRegister;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
@@ -12,23 +14,58 @@ import org.springframework.stereotype.Component;
 public class ElasticRegisterImpl implements ElasticRegister {
 
   @Override
-  public void addHuman(Human human) throws Exception {
+  public void addPersonage(Personage personage) throws Exception {
 
-    var builder = XContentFactory.jsonBuilder()
-      .startObject()
-      .field(Human.ES_SURNAME, human.surname)
-      .field(Human.ES_NAME, human.name)
-      .field(Human.ES_AGE, human.age)
-      .field(Human.ES_BIRTH_DAY, human.birthDay)
-      .endObject();
+    var json = XContentFactory.jsonBuilder();
+
+    json.startObject();
+
+    json.field(Personage.ES_NAME, personage.name);
+    json.field(Personage.ES_ALIAS, personage.alias);
+    json.field(Personage.ES_EPITHET, personage.epithet);
+
+    json.field(Personage.ES_AGE, personage.age);
+    json.field(Personage.ES_HEIGHT, personage.height);
+    json.field(Personage.ES_BIRTH_DAY, personage.birthday);
+
+    json.startObject(Personage.ES_AFFILIATIONS);
+    {
+      for (var affiliation : personage.affiliations) {
+
+        json.startObject(affiliation.id);
+        {
+          json.field(Affiliation.ES_NAME, affiliation.name);
+          json.field(Affiliation.ES_CAPTAIN, affiliation.captain);
+          json.field(Affiliation.ES_SHIP, affiliation.shipName);
+          json.field(Affiliation.ES_BOUNTY, affiliation.bounty);
+        }
+        json.endObject();
+
+      }
+    }
+    json.endObject();
+
+    json.startObject(Personage.ES_ACTOR);
+    {
+      json.field(VoiceActor.ES_SURNAME, personage.actor.surname);
+      json.field(VoiceActor.ES_NAME, personage.actor.name);
+    }
+    json.endObject();
+
+    json.field(Personage.ES_BLOOD_TYPE, personage.bloodType);
+    json.field(Personage.ES_BOUNTY, personage.bounty);
+    json.field(Personage.ES_STATUS, personage.status);
+
+    json.endObject();
 
     var indexRequest = new IndexRequest(ElasticSearch.index());
 
-    indexRequest.id(human.id);
+    indexRequest.id(personage.id);
 
-    indexRequest.source(builder);
+    indexRequest.source(json);
 
     ElasticSearch.client().index(indexRequest, RequestOptions.DEFAULT);
+
   }
 
 }
