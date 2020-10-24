@@ -58,7 +58,7 @@ public class ElasticRegisterImpl implements ElasticRegister {
 
     json.endObject();
 
-    var indexRequest = new IndexRequest(ElasticSearch.index());
+    var indexRequest = new IndexRequest(ElasticSearch.personage());
 
     indexRequest.id(personage.id);
 

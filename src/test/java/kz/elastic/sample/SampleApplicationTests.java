@@ -30,7 +30,7 @@ class SampleApplicationTests {
   // endregion
 
   @Test
-  void addHuman() throws Exception {
+  void addPersonage() throws Exception {
 
     var personage = new Personage();
 
@@ -67,17 +67,17 @@ class SampleApplicationTests {
     //
     //
 
-    var getIndexRequest = new GetIndexRequest(ElasticSearch.index());
+    var getIndexRequest = new GetIndexRequest(ElasticSearch.personage());
     var getIndexResponse = ElasticSearch.client().indices().get(getIndexRequest, RequestOptions.DEFAULT);
 
     System.out.println("\n8uj6dX1D5e :: index settings:");
-    printSettings(getIndexResponse.getSettings().get(ElasticSearch.index()));
+    printSettings(getIndexResponse.getSettings().get(ElasticSearch.personage()));
 
-    var indexMatchMappings = getIndexResponse.getMappings().get(ElasticSearch.index());
+    var indexMatchMappings = getIndexResponse.getMappings().get(ElasticSearch.personage());
     System.out.println("\n9VtYCQwRxg :: index mappings:");
     printMappings(indexMatchMappings);
 
-    var getRequest = new GetRequest(ElasticSearch.index());
+    var getRequest = new GetRequest(ElasticSearch.personage());
     getRequest.id(personage.id);
     var getResponse = ElasticSearch.client().get(getRequest, RequestOptions.DEFAULT);
 

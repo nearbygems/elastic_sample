@@ -30,8 +30,8 @@ public class ElasticSearch {
     return getInstance().client;
   }
 
-  public static String index() {
-    return "human";
+  public static String personage() {
+    return "personage";
   }
 
 }
