@@ -30,6 +30,8 @@ public class Personage {
   public long bounty;
   public Status status;
 
+  public DevilFruit fruit;
+
   public static String ES_NAME = "name";
   public static String ES_ALIAS = "alias";
   public static String ES_EPITHET = "epithet";
@@ -44,5 +46,7 @@ public class Personage {
   public static String ES_BLOOD_TYPE = "bloodType";
   public static String ES_BOUNTY = "bounty";
   public static String ES_STATUS = "status";
+
+  public static String ES_FRUIT = "fruit";
 
 }

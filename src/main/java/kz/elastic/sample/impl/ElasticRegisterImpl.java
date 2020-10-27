@@ -2,6 +2,7 @@ package kz.elastic.sample.impl;
 
 import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.Affiliation;
+import kz.elastic.sample.model.DevilFruit;
 import kz.elastic.sample.model.Personage;
 import kz.elastic.sample.model.VoiceActor;
 import kz.elastic.sample.register.ElasticRegister;
@@ -45,16 +46,29 @@ public class ElasticRegisterImpl implements ElasticRegister {
     }
     json.endObject();
 
-    json.startObject(Personage.ES_ACTOR);
-    {
-      json.field(VoiceActor.ES_SURNAME, personage.actor.surname);
-      json.field(VoiceActor.ES_NAME, personage.actor.name);
+    if (personage.actor != null) {
+      json.startObject(Personage.ES_ACTOR);
+      {
+        json.field(VoiceActor.ES_SURNAME, personage.actor.surname);
+        json.field(VoiceActor.ES_NAME, personage.actor.name);
+      }
+      json.endObject();
     }
-    json.endObject();
+
 
     json.field(Personage.ES_BLOOD_TYPE, personage.bloodType);
     json.field(Personage.ES_BOUNTY, personage.bounty);
     json.field(Personage.ES_STATUS, personage.status);
+
+    if (personage.fruit != null) {
+      json.startObject(Personage.ES_FRUIT);
+      {
+        json.field(DevilFruit.ES_NAME, personage.fruit.name);
+        json.field(DevilFruit.ES_MEANING, personage.fruit.meaning);
+        json.field(DevilFruit.ES_TYPE, personage.fruit.type);
+      }
+      json.endObject();
+    }
 
     json.endObject();
 

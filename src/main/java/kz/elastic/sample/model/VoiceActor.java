@@ -1,6 +1,7 @@
 package kz.elastic.sample.model;
 
 public class VoiceActor {
+  public String id;
   public String surname;
   public String name;
 

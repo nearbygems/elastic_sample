@@ -84,12 +84,12 @@ class SampleApplicationTests {
     System.out.println("KbKj71IqrJ :: getResponse.source() = " + prettyJson(getResponse.getSourceAsString()));
   }
 
-  protected void printSettings(Settings settings) {
+  private void printSettings(Settings settings) {
     settings.keySet().stream().sorted()
       .forEachOrdered(key -> System.out.println("  " + key + " = " + settings.get(key)));
   }
 
-  protected void printMappings(MappingMetaData mappings) throws Exception {
+  private void printMappings(MappingMetaData mappings) throws Exception {
     var jsonStr = mappings.source().toString();
 
     System.out.println(prettyJson(jsonStr));

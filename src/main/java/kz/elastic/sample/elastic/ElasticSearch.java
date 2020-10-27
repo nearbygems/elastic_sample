@@ -34,4 +34,8 @@ public class ElasticSearch {
     return "personage";
   }
 
+  public static String affiliation() { return "affiliation"; }
+
+  public static String fruit() { return "fruit"; }
+
 }
