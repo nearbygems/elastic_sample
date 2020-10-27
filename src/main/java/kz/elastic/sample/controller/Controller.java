@@ -1,6 +1,6 @@
 package kz.elastic.sample.controller;
 
-import kz.elastic.sample.register.ElasticRegister;
+import kz.elastic.sample.register.PersonRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 
   @Autowired
-  private ElasticRegister elasticRegister;
+  private PersonRegister personRegister;
 }

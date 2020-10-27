@@ -1,7 +1,9 @@
 package kz.elastic.sample.model;
 
 public class Affiliation {
+
   public String id;
+
   public String name;
   public String captain;
   public String shipName;

@@ -1,7 +1,9 @@
 package kz.elastic.sample.model;
 
 public class DevilFruit {
+
   public String id;
+
   public String name;
   public String meaning;
   public FruitType type;

@@ -2,7 +2,9 @@ package kz.elastic.sample;
 
 import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.*;
-import kz.elastic.sample.register.ElasticRegister;
+import kz.elastic.sample.register.PersonRegister;
+import kz.elastic.sample.util.Ids;
+import kz.greetgo.util.RND;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.indices.GetIndexRequest;
@@ -17,6 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
@@ -26,36 +30,37 @@ class SampleApplicationTests {
 
   // region Autowired fields
   @Autowired
-  private ElasticRegister elasticRegister;
+  private PersonRegister personRegister;
   // endregion
 
   @Test
   void addPersonage() throws Exception {
 
-    var personage = new Personage();
+    var personage = new Person();
 
-    personage.id = "h8enwt9fqp";
+    personage.id = Ids.generate();
 
-    personage.name = "Roronoa Zoro";
-    personage.alias = "Zoro-juurou";
-    personage.epithet = "Pirate Hunter Zoro";
+    personage.name = RND.str(10);
+    personage.alias = RND.str(10);
+    personage.epithet = RND.str(10);
 
-    personage.age = 21;
-    personage.height = 181;
-    personage.birthday = LocalDate.of(1994, 11, 11);
+    personage.age = RND.plusInt(100);
+    personage.height = RND.plusInt(300);
+    personage.birthday = toLocalDate(RND.dateYears(0, 2000));
 
     var affiliation = new Affiliation();
-    affiliation.id = "eug08jvluo";
-    affiliation.name = "Straw Hat Pirates";
-    affiliation.captain = "Monkey D. Luffy";
-    affiliation.shipName = "Thousand Sunny";
-    affiliation.bounty = 3_161_000_100L;
+    affiliation.id = Ids.generate();
+    affiliation.name = RND.str(10);
+    affiliation.captain = RND.str(10);
+    affiliation.shipName = RND.str(10);
+    affiliation.bounty = RND.plusLong(Long.MAX_VALUE);
 
     personage.affiliations.add(affiliation);
 
     personage.actor = new VoiceActor();
-    personage.actor.surname = "Nakai";
-    personage.actor.name = "Kazuya";
+    personage.actor.id = Ids.generate();
+    personage.actor.surname = RND.str(10);
+    personage.actor.name = RND.str(10);
 
     personage.bloodType = BloodType.XF;
     personage.bounty = 320_000_000L;
@@ -63,21 +68,21 @@ class SampleApplicationTests {
 
     //
     //
-    elasticRegister.addPersonage(personage);
+    personRegister.addPerson(personage);
     //
     //
 
-    var getIndexRequest = new GetIndexRequest(ElasticSearch.personage());
+    var getIndexRequest = new GetIndexRequest(ElasticSearch.person());
     var getIndexResponse = ElasticSearch.client().indices().get(getIndexRequest, RequestOptions.DEFAULT);
 
     System.out.println("\n8uj6dX1D5e :: index settings:");
-    printSettings(getIndexResponse.getSettings().get(ElasticSearch.personage()));
+    printSettings(getIndexResponse.getSettings().get(ElasticSearch.person()));
 
-    var indexMatchMappings = getIndexResponse.getMappings().get(ElasticSearch.personage());
+    var indexMatchMappings = getIndexResponse.getMappings().get(ElasticSearch.person());
     System.out.println("\n9VtYCQwRxg :: index mappings:");
     printMappings(indexMatchMappings);
 
-    var getRequest = new GetRequest(ElasticSearch.personage());
+    var getRequest = new GetRequest(ElasticSearch.person());
     getRequest.id(personage.id);
     var getResponse = ElasticSearch.client().get(getRequest, RequestOptions.DEFAULT);
 
@@ -111,6 +116,10 @@ class SampleApplicationTests {
     requireNonNull(o);
     //noinspection unchecked
     return (Map<String, Object>) o;
+  }
+
+  private LocalDate toLocalDate(Date date) {
+    return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
   }
 
 }

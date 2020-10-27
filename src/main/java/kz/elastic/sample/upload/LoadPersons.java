@@ -2,23 +2,24 @@ package kz.elastic.sample.upload;
 
 import kz.elastic.sample.model.*;
 import kz.elastic.sample.register.PersonRegister;
+import kz.elastic.sample.util.Ids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
 @Component
-public class TestDataLoader {
+public class LoadPersons {
 
   // region Autowired fields
   @Autowired
   private PersonRegister personRegister;
   // endregion
 
-  public void loadTestData() throws Exception {
+  public void loadPersons() throws Exception {
     var person = new Person();
 
-    person.id = "h8enwt9fqp";
+    person.id = Ids.generate();
 
     person.name = "Roronoa Zoro";
     person.alias = "Zoro-juurou";
