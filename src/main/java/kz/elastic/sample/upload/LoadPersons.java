@@ -46,8 +46,6 @@ public class LoadPersons {
     person.bounty = 320_000_000L;
     person.status = Status.ALIVE;
 
-    //
-    //
     personRegister.addPerson(person);
   }
 }
