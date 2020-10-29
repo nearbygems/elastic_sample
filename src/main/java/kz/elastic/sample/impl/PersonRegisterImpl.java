@@ -46,15 +46,18 @@ public class PersonRegisterImpl implements PersonRegister {
     }
     json.endObject();
 
-    if (person.actor != null) {
-      json.startObject(Person.ES_ACTOR);
-      {
-        json.field(VoiceActor.ES_SURNAME, person.actor.surname);
-        json.field(VoiceActor.ES_NAME, person.actor.name);
+    json.startObject(Person.ES_ACTOR);
+    {
+      for (var actor : person.actors) {
+        json.startObject(actor.id);
+        {
+          json.field(VoiceActor.ES_SURNAME, actor.surname);
+          json.field(VoiceActor.ES_NAME, actor.name);
+        }
+        json.endObject();
       }
-      json.endObject();
     }
-
+    json.endObject();
 
     json.field(Person.ES_BLOOD_TYPE, person.bloodType);
     json.field(Person.ES_BOUNTY, person.bounty);

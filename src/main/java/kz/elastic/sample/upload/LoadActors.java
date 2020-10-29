@@ -1,19 +1,19 @@
 package kz.elastic.sample.upload;
 
-import kz.elastic.sample.register.PersonRegister;
+import kz.elastic.sample.register.ActorRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoadPersons {
+public class LoadActors {
 
   // region Autowired fields
   @Autowired
-  private PersonRegister personRegister;
+  private ActorRegister actorRegister;
   // endregion
 
-  public void loadPersons() throws Exception {
-    System.out.println("Persons is OK!");
+  public void loadActors() throws Exception {
+    System.out.println("Actors is OK!");
   }
 
 }

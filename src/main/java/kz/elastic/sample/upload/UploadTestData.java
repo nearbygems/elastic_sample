@@ -10,7 +10,7 @@ public class UploadTestData {
       context.getBean(TestDataLoader.class).loadTestData();
       ElasticSearch.client().close();
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("");
     }
   }
 }

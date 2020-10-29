@@ -1,28 +1,28 @@
 package kz.elastic.sample;
 
 import kz.elastic.sample.elastic.ElasticSearch;
-import kz.elastic.sample.register.PersonRegister;
+import kz.elastic.sample.register.FruitRegister;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class PersonRegisterTest extends SampleApplicationTests {
+public class FruitRegisterImplTest extends SampleApplicationTests {
 
   // region Autowired fields
   @Autowired
-  private PersonRegister personRegister;
+  private FruitRegister fruitRegister;
   // endregion
 
   @Test
   void addPerson() throws Exception {
 
-    var person = rndPerson();
+    var fruit = rndFruit();
 
     //
     //
-    personRegister.addPerson(person);
+    fruitRegister.addFruit(fruit);
     //
     //
 
@@ -37,7 +37,7 @@ public class PersonRegisterTest extends SampleApplicationTests {
     printMappings(indexMatchMappings);
 
     var getRequest = new GetRequest(ElasticSearch.person());
-    getRequest.id(person.id);
+    getRequest.id(fruit.id);
     var getResponse = ElasticSearch.client().get(getRequest, RequestOptions.DEFAULT);
 
     System.out.println("KbKj71IqrJ :: getResponse.source() = " + prettyJson(getResponse.getSourceAsString()));

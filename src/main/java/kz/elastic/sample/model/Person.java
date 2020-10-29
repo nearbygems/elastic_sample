@@ -24,7 +24,7 @@ public class Person {
   public LocalDate birthday;
 
   public List<Affiliation> affiliations = new ArrayList<>();
-  public VoiceActor actor;
+  public List<VoiceActor> actors = new ArrayList<>();
 
   public BloodType bloodType;
   public long bounty;
@@ -41,7 +41,7 @@ public class Person {
   public static String ES_BIRTH_DAY = "birthDay";
 
   public static String ES_AFFILIATIONS = "affiliations";
-  public static String ES_ACTOR = "actor";
+  public static String ES_ACTOR = "actors";
 
   public static String ES_BLOOD_TYPE = "bloodType";
   public static String ES_BOUNTY = "bounty";
