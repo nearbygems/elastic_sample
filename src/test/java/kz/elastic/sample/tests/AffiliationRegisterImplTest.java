@@ -1,5 +1,6 @@
-package kz.elastic.sample;
+package kz.elastic.sample.tests;
 
+import kz.elastic.sample.SampleApplicationTests;
 import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.Affiliation;
 import kz.elastic.sample.register.AffiliationRegister;
@@ -50,8 +51,6 @@ public class AffiliationRegisterImplTest extends SampleApplicationTests {
     assertThat(source.get(Affiliation.ES_CAPTAIN)).isEqualTo(affiliation.captain);
     assertThat(source.get(Affiliation.ES_SHIP)).isEqualTo(affiliation.shipName);
     assertThat(source.get(Affiliation.ES_BOUNTY)).isEqualTo(affiliation.bounty);
-
-    deleteIndex(ElasticSearch.affiliation());
 
   }
 

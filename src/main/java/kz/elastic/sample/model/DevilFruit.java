@@ -11,4 +11,5 @@ public class DevilFruit {
   public static String ES_NAME = "name";
   public static String ES_MEANING = "meaning";
   public static String ES_TYPE = "type";
+
 }

@@ -5,4 +5,5 @@ import kz.elastic.sample.model.Affiliation;
 public interface AffiliationRegister {
 
   void addAffiliation(Affiliation affiliation) throws Exception;
+
 }

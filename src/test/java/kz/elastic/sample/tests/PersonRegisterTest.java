@@ -1,5 +1,6 @@
-package kz.elastic.sample;
+package kz.elastic.sample.tests;
 
+import kz.elastic.sample.SampleApplicationTests;
 import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.Affiliation;
 import kz.elastic.sample.model.DevilFruit;
@@ -111,8 +112,6 @@ public class PersonRegisterTest extends SampleApplicationTests {
       assertThat(actor.get(VoiceActor.ES_SURNAME)).isEqualTo(actor2.surname);
       assertThat(actor.get(VoiceActor.ES_NAME)).isEqualTo(actor2.name);
     }
-
-    deleteIndex(ElasticSearch.person());
 
   }
 

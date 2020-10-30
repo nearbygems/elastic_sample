@@ -13,4 +13,5 @@ public class Affiliation {
   public static String ES_CAPTAIN = "captain";
   public static String ES_SHIP = "ship";
   public static String ES_BOUNTY = "bounty";
+
 }

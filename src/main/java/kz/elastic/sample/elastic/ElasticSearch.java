@@ -4,6 +4,8 @@ import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 
+import java.util.List;
+
 public class ElasticSearch {
 
   private final RestHighLevelClient client;
@@ -18,12 +20,14 @@ public class ElasticSearch {
 
     if (instance == null) {
 
-      RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 9200)));
+      var client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 9200)));
 
       instance = new ElasticSearch(client);
+
     }
 
     return instance;
+
   }
 
   public static RestHighLevelClient client() {
@@ -39,5 +43,7 @@ public class ElasticSearch {
   public static String affiliation() { return "affiliation"; }
 
   public static String fruit() { return "fruit"; }
+
+  public static List<String> indexes() { return List.of(person(), actor(), affiliation(), fruit()); }
 
 }

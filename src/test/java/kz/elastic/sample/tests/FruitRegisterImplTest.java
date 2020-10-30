@@ -1,5 +1,6 @@
-package kz.elastic.sample;
+package kz.elastic.sample.tests;
 
+import kz.elastic.sample.SampleApplicationTests;
 import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.DevilFruit;
 import kz.elastic.sample.register.FruitRegister;
@@ -49,8 +50,6 @@ public class FruitRegisterImplTest extends SampleApplicationTests {
     assertThat(source.get(DevilFruit.ES_NAME)).isEqualTo(fruit.name);
     assertThat(source.get(DevilFruit.ES_MEANING)).isEqualTo(fruit.meaning);
     assertThat(source.get(DevilFruit.ES_TYPE)).isEqualTo(fruit.type.toString());
-
-    deleteIndex(ElasticSearch.fruit());
 
   }
 

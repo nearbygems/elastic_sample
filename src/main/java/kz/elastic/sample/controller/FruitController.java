@@ -13,4 +13,5 @@ public class FruitController {
   @Autowired
   private FruitRegister fruitRegister;
   // endregion
+
 }

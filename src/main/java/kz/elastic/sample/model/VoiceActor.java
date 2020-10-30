@@ -9,4 +9,5 @@ public class VoiceActor {
 
   public static String ES_SURNAME = "surname";
   public static String ES_NAME = "name";
+
 }

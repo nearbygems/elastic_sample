@@ -1,5 +1,6 @@
 package kz.elastic.sample;
 
+import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.*;
 import kz.elastic.sample.util.Ids;
 import kz.greetgo.util.RND;
@@ -8,6 +9,7 @@ import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.*;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.AfterAll;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
@@ -23,7 +25,7 @@ import java.util.Map;
 import static java.util.Objects.requireNonNull;
 
 @SpringBootTest
-class SampleApplicationTests {
+public class SampleApplicationTests {
 
   protected VoiceActor rndActor() {
     var ret = new VoiceActor();
@@ -106,13 +108,6 @@ class SampleApplicationTests {
     return Strings.toString(b);
   }
 
-  protected void deleteIndex(String index) throws Exception {
-    var request = HttpRequest.newBuilder(URI.create("http://localhost:9200/" + index))
-      .DELETE()
-      .build();
-    HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofByteArray());
-  }
-
   protected @NotNull Map<String, Object> castToMap(Object o) {
     requireNonNull(o);
     //noinspection unchecked
@@ -140,5 +135,15 @@ class SampleApplicationTests {
   protected BloodType rndBloodType() { return BloodType.types().get(RND.plusInt(3)); }
 
   protected Status rndStatus() { return Status.types().get(RND.plusInt(1)); }
+
+  @AfterAll
+  static void deleteIndexes() throws Exception {
+    for (var index : ElasticSearch.indexes()) {
+      var request = HttpRequest.newBuilder(URI.create("http://localhost:9200/" + index))
+        .DELETE()
+        .build();
+      HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofByteArray());
+    }
+  }
 
 }
