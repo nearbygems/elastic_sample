@@ -33,12 +33,31 @@ class SampleApplicationTests {
     return ret;
   }
 
+  protected VoiceActor rndActor(Person person) {
+    var ret = new VoiceActor();
+    ret.id = Ids.generate();
+    ret.name = RND.str(5);
+    ret.surname = RND.str(5);
+    person.actors.add(ret);
+    return ret;
+  }
+
   protected DevilFruit rndFruit() {
     var ret = new DevilFruit();
     ret.id = Ids.generate();
     ret.name = RND.str(5);
     ret.meaning = RND.str(5);
     ret.type = rndFruitType();
+    return ret;
+  }
+
+  protected DevilFruit rndFruit(Person person) {
+    var ret = new DevilFruit();
+    ret.id = Ids.generate();
+    ret.name = RND.str(5);
+    ret.meaning = RND.str(5);
+    ret.type = rndFruitType();
+    person.fruits.add(ret);
     return ret;
   }
 
@@ -49,6 +68,17 @@ class SampleApplicationTests {
     ret.captain = RND.str(10);
     ret.shipName = RND.str(10);
     ret.bounty = RND.plusLong(Long.MAX_VALUE);
+    return ret;
+  }
+
+  protected Affiliation rndAffiliation(Person person) {
+    var ret = new Affiliation();
+    ret.id = Ids.generate();
+    ret.name = RND.str(10);
+    ret.captain = RND.str(10);
+    ret.shipName = RND.str(10);
+    ret.bounty = RND.plusLong(Long.MAX_VALUE);
+    person.affiliations.add(ret);
     return ret;
   }
 

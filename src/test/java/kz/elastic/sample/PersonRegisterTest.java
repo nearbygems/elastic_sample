@@ -26,32 +26,14 @@ public class PersonRegisterTest extends SampleApplicationTests {
 
     var person = rndPerson();
 
-    var affiliation1 = rndAffiliation();
-    person.affiliations.add(affiliation1);
+    var affiliation1 = rndAffiliation(person);
+    var affiliation2 = rndAffiliation(person);
 
-    var affiliation2 = rndAffiliation();
-    person.affiliations.add(affiliation2);
+    var fruit1 = rndFruit(person);
+    var fruit2 = rndFruit(person);
 
-    var affiliation3 = rndAffiliation();
-    person.affiliations.add(affiliation3);
-
-    var fruit1 = rndFruit();
-    person.fruits.add(fruit1);
-
-    var fruit2 = rndFruit();
-    person.fruits.add(fruit2);
-
-    var fruit3 = rndFruit();
-    person.fruits.add(fruit3);
-
-    var actor1 = rndActor();
-    person.actors.add(actor1);
-
-    var actor2 = rndActor();
-    person.actors.add(actor2);
-
-    var actor3 = rndActor();
-    person.actors.add(actor3);
+    var actor1 = rndActor(person);
+    var actor2 = rndActor(person);
 
     //
     //
@@ -103,13 +85,6 @@ public class PersonRegisterTest extends SampleApplicationTests {
       assertThat(affiliation.get(Affiliation.ES_SHIP)).isEqualTo(affiliation2.shipName);
       assertThat(affiliation.get(Affiliation.ES_BOUNTY)).isEqualTo(affiliation2.bounty);
     }
-    {
-      var affiliation = castToMap(affiliations.get(affiliation3.id));
-      assertThat(affiliation.get(Affiliation.ES_NAME)).isEqualTo(affiliation3.name);
-      assertThat(affiliation.get(Affiliation.ES_CAPTAIN)).isEqualTo(affiliation3.captain);
-      assertThat(affiliation.get(Affiliation.ES_SHIP)).isEqualTo(affiliation3.shipName);
-      assertThat(affiliation.get(Affiliation.ES_BOUNTY)).isEqualTo(affiliation3.bounty);
-    }
 
     var fruits = castToMap(source.get(Person.ES_FRUITS));
     {
@@ -124,12 +99,6 @@ public class PersonRegisterTest extends SampleApplicationTests {
       assertThat(fruit.get(DevilFruit.ES_MEANING)).isEqualTo(fruit2.meaning);
       assertThat(fruit.get(DevilFruit.ES_TYPE)).isEqualTo(fruit2.type.toString());
     }
-    {
-      var fruit = castToMap(fruits.get(fruit3.id));
-      assertThat(fruit.get(DevilFruit.ES_NAME)).isEqualTo(fruit3.name);
-      assertThat(fruit.get(DevilFruit.ES_MEANING)).isEqualTo(fruit3.meaning);
-      assertThat(fruit.get(DevilFruit.ES_TYPE)).isEqualTo(fruit3.type.toString());
-    }
 
     var actors = castToMap(source.get(Person.ES_ACTORS));
     {
@@ -141,11 +110,6 @@ public class PersonRegisterTest extends SampleApplicationTests {
       var actor = castToMap(actors.get(actor2.id));
       assertThat(actor.get(VoiceActor.ES_SURNAME)).isEqualTo(actor2.surname);
       assertThat(actor.get(VoiceActor.ES_NAME)).isEqualTo(actor2.name);
-    }
-    {
-      var actor = castToMap(actors.get(actor3.id));
-      assertThat(actor.get(VoiceActor.ES_SURNAME)).isEqualTo(actor3.surname);
-      assertThat(actor.get(VoiceActor.ES_NAME)).isEqualTo(actor3.name);
     }
 
     deleteIndex(ElasticSearch.person());
