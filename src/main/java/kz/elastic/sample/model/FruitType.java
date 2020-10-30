@@ -13,4 +13,5 @@ public enum FruitType {
     return List.of(FruitType.PARAMECIA, FruitType.LOGIA, FruitType.ANCIENT_ZOAN,
       FruitType.ARTIFICIAL_ZOAN, FruitType.MYTHICAL_ZOAN);
   }
+
 }

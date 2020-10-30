@@ -24,7 +24,7 @@ public class FruitRegisterImpl implements FruitRegister {
 
     json.endObject();
 
-    var indexRequest = new IndexRequest(ElasticSearch.person());
+    var indexRequest = new IndexRequest(ElasticSearch.fruit());
 
     indexRequest.id(fruit.id);
 

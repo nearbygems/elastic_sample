@@ -30,7 +30,7 @@ public class Person {
   public long bounty;
   public Status status;
 
-  public DevilFruit fruit;
+  public List<DevilFruit> fruits = new ArrayList<>();
 
   public static String ES_NAME = "name";
   public static String ES_ALIAS = "alias";
@@ -41,12 +41,12 @@ public class Person {
   public static String ES_BIRTH_DAY = "birthDay";
 
   public static String ES_AFFILIATIONS = "affiliations";
-  public static String ES_ACTOR = "actors";
+  public static String ES_ACTORS = "actors";
 
   public static String ES_BLOOD_TYPE = "bloodType";
   public static String ES_BOUNTY = "bounty";
   public static String ES_STATUS = "status";
 
-  public static String ES_FRUIT = "fruit";
+  public static String ES_FRUITS = "fruits";
 
 }

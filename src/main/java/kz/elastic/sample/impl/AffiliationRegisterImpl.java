@@ -25,7 +25,7 @@ public class AffiliationRegisterImpl implements AffiliationRegister {
 
     json.endObject();
 
-    var indexRequest = new IndexRequest(ElasticSearch.person());
+    var indexRequest = new IndexRequest(ElasticSearch.affiliation());
 
     indexRequest.id(affiliation.id);
 

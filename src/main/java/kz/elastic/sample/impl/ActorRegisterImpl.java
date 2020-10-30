@@ -23,7 +23,7 @@ public class ActorRegisterImpl implements ActorRegister {
 
     json.endObject();
 
-    var indexRequest = new IndexRequest(ElasticSearch.person());
+    var indexRequest = new IndexRequest(ElasticSearch.actor());
 
     indexRequest.id(actor.id);
 

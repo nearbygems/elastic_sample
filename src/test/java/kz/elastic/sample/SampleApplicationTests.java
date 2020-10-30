@@ -11,6 +11,10 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -20,28 +24,6 @@ import static java.util.Objects.requireNonNull;
 
 @SpringBootTest
 class SampleApplicationTests {
-
-  protected Person rndPerson() {
-    var person = new Person();
-    person.id = Ids.generate();
-    person.name = RND.str(7);
-    person.alias = RND.str(8);
-    person.epithet = RND.str(9);
-    person.age = RND.plusInt(100);
-    person.height = RND.plusInt(300);
-    person.birthday = toLocalDate(RND.dateYears(0, 2000));
-    person.affiliations.add(rndAffiliation());
-    person.affiliations.add(rndAffiliation());
-    person.affiliations.add(rndAffiliation());
-    person.bloodType = BloodType.XF;
-    person.bounty = 320_000_000L;
-    person.status = Status.ALIVE;
-    person.actors.add(rndActor());
-    person.actors.add(rndActor());
-    person.actors.add(rndActor());
-    person.fruit = rndFruit();
-    return person;
-  }
 
   protected VoiceActor rndActor() {
     var ret = new VoiceActor();
@@ -56,7 +38,7 @@ class SampleApplicationTests {
     ret.id = Ids.generate();
     ret.name = RND.str(5);
     ret.meaning = RND.str(5);
-    ret.type = rndType();
+    ret.type = rndFruitType();
     return ret;
   }
 
@@ -70,18 +52,19 @@ class SampleApplicationTests {
     return ret;
   }
 
-  protected FruitType rndType() {
-    return FruitType.types().get(RND.plusInt(4));
-  }
-
-  protected void printSettings(Settings settings) {
-    settings.keySet().stream().sorted()
-      .forEachOrdered(key -> System.out.println("  " + key + " = " + settings.get(key)));
-  }
-
-  protected void printMappings(MappingMetaData mappings) throws Exception {
-    var jsonStr = mappings.source().toString();
-    System.out.println(prettyJson(jsonStr));
+  protected Person rndPerson() {
+    var person = new Person();
+    person.id = Ids.generate();
+    person.name = RND.str(7);
+    person.alias = RND.str(8);
+    person.epithet = RND.str(9);
+    person.age = RND.plusInt(100);
+    person.height = RND.plusInt(300);
+    person.birthday = toLocalDate(RND.dateYears(0, 2000));
+    person.bloodType = rndBloodType();
+    person.bounty = RND.plusLong(Long.MAX_VALUE);
+    person.status = rndStatus();
+    return person;
   }
 
   protected String prettyJson(String jsonStr) throws IOException {
@@ -90,8 +73,14 @@ class SampleApplicationTests {
     try (XContentParser p = xContent.createParser(NamedXContentRegistry.EMPTY, null, jsonStr)) {
       b.copyCurrentStructure(p);
     }
-
     return Strings.toString(b);
+  }
+
+  protected void deleteIndex(String index) throws Exception {
+    var request = HttpRequest.newBuilder(URI.create("http://localhost:9200/" + index))
+      .DELETE()
+      .build();
+    HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofByteArray());
   }
 
   protected @NotNull Map<String, Object> castToMap(Object o) {
@@ -100,8 +89,26 @@ class SampleApplicationTests {
     return (Map<String, Object>) o;
   }
 
+  protected void printSettings(Settings settings) {
+    settings.keySet().stream()
+      .sorted()
+      .forEachOrdered(key -> System.out.println("  " + key + " = " + settings.get(key)));
+  }
+
+  protected void printMappings(MappingMetaData mappings) throws Exception {
+    System.out.println(prettyJson(mappings.source().toString()));
+  }
+
   protected LocalDate toLocalDate(Date date) {
     return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
   }
+
+  protected FruitType rndFruitType() {
+    return FruitType.types().get(RND.plusInt(4));
+  }
+
+  protected BloodType rndBloodType() { return BloodType.types().get(RND.plusInt(3)); }
+
+  protected Status rndStatus() { return Status.types().get(RND.plusInt(1)); }
 
 }

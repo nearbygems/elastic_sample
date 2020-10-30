@@ -46,7 +46,7 @@ public class PersonRegisterImpl implements PersonRegister {
     }
     json.endObject();
 
-    json.startObject(Person.ES_ACTOR);
+    json.startObject(Person.ES_ACTORS);
     {
       for (var actor : person.actors) {
         json.startObject(actor.id);
@@ -63,15 +63,19 @@ public class PersonRegisterImpl implements PersonRegister {
     json.field(Person.ES_BOUNTY, person.bounty);
     json.field(Person.ES_STATUS, person.status);
 
-    if (person.fruit != null) {
-      json.startObject(Person.ES_FRUIT);
-      {
-        json.field(DevilFruit.ES_NAME, person.fruit.name);
-        json.field(DevilFruit.ES_MEANING, person.fruit.meaning);
-        json.field(DevilFruit.ES_TYPE, person.fruit.type);
+    json.startObject(Person.ES_FRUITS);
+    {
+      for (var fruit : person.fruits) {
+        json.startObject(fruit.id);
+        {
+          json.field(DevilFruit.ES_NAME, fruit.name);
+          json.field(DevilFruit.ES_MEANING, fruit.meaning);
+          json.field(DevilFruit.ES_TYPE, fruit.type);
+        }
+        json.endObject();
       }
-      json.endObject();
     }
+    json.endObject();
 
     json.endObject();
 
