@@ -8,11 +8,13 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class FruitRegisterImpl implements FruitRegister {
 
   @Override
-  public void addFruit(DevilFruit fruit) throws Exception {
+  public void addFruit(DevilFruit fruit) throws IOException {
 
     var json = XContentFactory.jsonBuilder();
 

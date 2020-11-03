@@ -1,3 +1,0 @@
-GET http://localhost:9200/actor/_search
-
-###

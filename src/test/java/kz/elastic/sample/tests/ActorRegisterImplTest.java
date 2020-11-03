@@ -4,11 +4,16 @@ import kz.elastic.sample.SampleApplicationTests;
 import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.VoiceActor;
 import kz.elastic.sample.register.ActorRegister;
+import kz.elastic.sample.util.Ids;
+import kz.greetgo.util.RND;
 import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,7 +25,7 @@ public class ActorRegisterImplTest extends SampleApplicationTests {
   // endregion
 
   @Test
-  void addActor() throws Exception {
+  void addActor() throws IOException {
 
     var actor = rndActor();
 
@@ -50,6 +55,50 @@ public class ActorRegisterImplTest extends SampleApplicationTests {
 
     assertThat(source.get(VoiceActor.ES_SURNAME)).isEqualTo(actor.surname);
     assertThat(source.get(VoiceActor.ES_NAME)).isEqualTo(actor.name);
+
+  }
+
+  @Test
+  void searchActor() throws IOException {
+
+    var search = RND.str(5);
+
+    var actorOk1 = new VoiceActor();
+    actorOk1.id = Ids.generate();
+    actorOk1.surname = search;
+    actorOk1.name = RND.str(10);
+
+    var actorOk2 = new VoiceActor();
+    actorOk2.id = Ids.generate();
+    actorOk2.surname = RND.str(10);
+    actorOk2.name = search;
+
+    var actor = rndActor();
+
+    ins(actor, actorOk1, actorOk2);
+
+    var index = ElasticSearch.actor();
+
+    {
+      GetResponse response = ElasticSearch.client()
+        .get(new GetRequest().id(actorOk1.id).index(index), RequestOptions.DEFAULT);
+
+      assertThat(response.isExists()).isTrue();
+    }
+    {
+      GetResponse response = ElasticSearch.client()
+        .get(new GetRequest().id(actorOk2.id).index(index), RequestOptions.DEFAULT);
+
+      assertThat(response.isExists()).isTrue();
+    }
+
+    //
+    //
+    var actors = actorRegister.searchActor(search);
+    //
+    //
+
+    System.out.println(actors);
 
   }
 

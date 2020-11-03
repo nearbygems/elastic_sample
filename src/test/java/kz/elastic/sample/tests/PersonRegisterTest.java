@@ -13,6 +13,8 @@ import org.elasticsearch.client.indices.GetIndexRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PersonRegisterTest extends SampleApplicationTests {
@@ -23,7 +25,7 @@ public class PersonRegisterTest extends SampleApplicationTests {
   // endregion
 
   @Test
-  void addPerson() throws Exception {
+  void addPerson() throws IOException {
 
     var person = rndPerson();
 

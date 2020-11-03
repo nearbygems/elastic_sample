@@ -10,6 +10,8 @@ import org.elasticsearch.client.indices.GetIndexRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AffiliationRegisterImplTest extends SampleApplicationTests {
@@ -20,7 +22,7 @@ public class AffiliationRegisterImplTest extends SampleApplicationTests {
   // endregion
 
   @Test
-  void addAffiliation() throws Exception {
+  void addAffiliation() throws IOException {
 
     var affiliation = rndAffiliation();
 

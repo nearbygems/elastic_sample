@@ -1,5 +1,14 @@
 package kz.elastic.sample.model;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
+
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldNameConstants
 public class VoiceActor {
 
   public String id;

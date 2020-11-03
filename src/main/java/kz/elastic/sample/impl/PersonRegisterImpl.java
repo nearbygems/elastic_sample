@@ -11,11 +11,13 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class PersonRegisterImpl implements PersonRegister {
 
   @Override
-  public void addPerson(Person person) throws Exception {
+  public void addPerson(Person person) throws IOException {
 
     var json = XContentFactory.jsonBuilder();
 

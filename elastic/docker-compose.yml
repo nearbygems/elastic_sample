@@ -8,7 +8,6 @@ services:
     restart: always
     user: "0:0"
     environment:
-      #- cluster.name=docker-cluster
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"

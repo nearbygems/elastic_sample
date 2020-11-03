@@ -10,6 +10,8 @@ import org.elasticsearch.client.indices.GetIndexRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FruitRegisterImplTest extends SampleApplicationTests {
@@ -20,7 +22,7 @@ public class FruitRegisterImplTest extends SampleApplicationTests {
   // endregion
 
   @Test
-  void addFruit() throws Exception {
+  void addFruit() throws IOException {
 
     var fruit = rndFruit();
 

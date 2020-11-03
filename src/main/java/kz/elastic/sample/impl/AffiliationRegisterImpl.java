@@ -8,11 +8,13 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class AffiliationRegisterImpl implements AffiliationRegister {
 
   @Override
-  public void addAffiliation(Affiliation affiliation) throws Exception {
+  public void addAffiliation(Affiliation affiliation) throws IOException {
 
     var json = XContentFactory.jsonBuilder();
 

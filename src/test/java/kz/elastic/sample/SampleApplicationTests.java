@@ -2,6 +2,7 @@ package kz.elastic.sample;
 
 import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.*;
+import kz.elastic.sample.register.ActorRegister;
 import kz.elastic.sample.util.Ids;
 import kz.greetgo.util.RND;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
@@ -9,7 +10,7 @@ import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.*;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.AfterAll;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
@@ -26,6 +27,11 @@ import static java.util.Objects.requireNonNull;
 
 @SpringBootTest
 public class SampleApplicationTests {
+
+  // region Autowired fields
+  @Autowired
+  private ActorRegister actorRegister;
+  // endregion
 
   protected VoiceActor rndActor() {
     var ret = new VoiceActor();
@@ -120,7 +126,7 @@ public class SampleApplicationTests {
       .forEachOrdered(key -> System.out.println("  " + key + " = " + settings.get(key)));
   }
 
-  protected void printMappings(MappingMetaData mappings) throws Exception {
+  protected void printMappings(MappingMetaData mappings) throws IOException {
     System.out.println(prettyJson(mappings.source().toString()));
   }
 
@@ -136,13 +142,18 @@ public class SampleApplicationTests {
 
   protected Status rndStatus() { return Status.types().get(RND.plusInt(1)); }
 
-  @AfterAll
-  static void deleteIndexes() throws Exception {
+  static void deleteIndexes() throws IOException, InterruptedException {
     for (var index : ElasticSearch.indexes()) {
       var request = HttpRequest.newBuilder(URI.create("http://localhost:9200/" + index))
         .DELETE()
         .build();
       HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofByteArray());
+    }
+  }
+
+  protected void ins(VoiceActor... actors) throws IOException {
+    for (var actor : actors) {
+      actorRegister.addActor(actor);
     }
   }
 
