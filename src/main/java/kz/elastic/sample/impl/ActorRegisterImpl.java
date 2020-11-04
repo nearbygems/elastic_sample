@@ -7,6 +7,7 @@ import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.xcontent.XContentFactory;
@@ -35,7 +36,8 @@ public class ActorRegisterImpl implements ActorRegister {
 
     json.endObject();
 
-    var indexRequest = new IndexRequest(ElasticSearch.actor());
+    var indexRequest = new IndexRequest(ElasticSearch.actor())
+      .setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
 
     indexRequest.id(actor.id);
 

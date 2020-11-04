@@ -4,6 +4,7 @@ import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.Affiliation;
 import kz.elastic.sample.register.AffiliationRegister;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,8 @@ public class AffiliationRegisterImpl implements AffiliationRegister {
 
     json.endObject();
 
-    var indexRequest = new IndexRequest(ElasticSearch.affiliation());
+    var indexRequest = new IndexRequest(ElasticSearch.affiliation())
+      .setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
 
     indexRequest.id(affiliation.id);
 

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -73,9 +74,9 @@ public class ActorRegisterImplTest extends SampleApplicationTests {
     actorOk2.surname = RND.str(10);
     actorOk2.name = search;
 
-    var actor = rndActor();
+    var actorLeft = rndActor();
 
-    ins(actor, actorOk1, actorOk2);
+    ins(actorLeft, actorOk1, actorOk2);
 
     var index = ElasticSearch.actor();
 
@@ -98,7 +99,19 @@ public class ActorRegisterImplTest extends SampleApplicationTests {
     //
     //
 
-    System.out.println(actors);
+    var map = actors.stream().collect(Collectors.toMap(x -> x.id, x -> x));
+
+    {
+      var actor = map.get(actorOk1.id);
+      assertThat(actor.name).isEqualTo(actorOk1.name);
+      assertThat(actor.surname).isEqualTo(actorOk1.surname);
+    }
+
+    {
+      var actor = map.get(actorOk2.id);
+      assertThat(actor.name).isEqualTo(actorOk2.name);
+      assertThat(actor.surname).isEqualTo(actorOk2.surname);
+    }
 
   }
 

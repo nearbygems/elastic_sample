@@ -7,6 +7,7 @@ import kz.elastic.sample.model.Person;
 import kz.elastic.sample.model.VoiceActor;
 import kz.elastic.sample.register.PersonRegister;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.springframework.stereotype.Component;
@@ -81,7 +82,8 @@ public class PersonRegisterImpl implements PersonRegister {
 
     json.endObject();
 
-    var indexRequest = new IndexRequest(ElasticSearch.person());
+    var indexRequest = new IndexRequest(ElasticSearch.person())
+      .setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
 
     indexRequest.id(person.id);
 
