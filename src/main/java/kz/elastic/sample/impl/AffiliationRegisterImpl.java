@@ -3,19 +3,19 @@ package kz.elastic.sample.impl;
 import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.Affiliation;
 import kz.elastic.sample.register.AffiliationRegister;
+import lombok.SneakyThrows;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 @Component
 public class AffiliationRegisterImpl implements AffiliationRegister {
 
   @Override
-  public void addAffiliation(Affiliation affiliation) throws IOException {
+  @SneakyThrows
+  public void addAffiliation(Affiliation affiliation) {
 
     var json = XContentFactory.jsonBuilder();
 

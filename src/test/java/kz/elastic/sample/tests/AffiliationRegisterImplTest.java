@@ -4,13 +4,12 @@ import kz.elastic.sample.SampleApplicationTests;
 import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.Affiliation;
 import kz.elastic.sample.register.AffiliationRegister;
+import lombok.SneakyThrows;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,7 +21,8 @@ public class AffiliationRegisterImplTest extends SampleApplicationTests {
   // endregion
 
   @Test
-  void addAffiliation() throws IOException {
+  @SneakyThrows
+  void addAffiliation() {
 
     var affiliation = rndAffiliation();
 

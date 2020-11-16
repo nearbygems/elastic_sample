@@ -5,15 +5,16 @@ import kz.elastic.sample.model.*;
 import kz.elastic.sample.register.ActorRegister;
 import kz.elastic.sample.util.Ids;
 import kz.greetgo.util.RND;
+import lombok.SneakyThrows;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.*;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.AfterAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -105,7 +106,8 @@ public class SampleApplicationTests {
     return person;
   }
 
-  protected String prettyJson(String jsonStr) throws IOException {
+  @SneakyThrows
+  protected String prettyJson(String jsonStr) {
     XContentBuilder b = XContentFactory.jsonBuilder().prettyPrint();
     var xContent = XContentFactory.xContent(XContentType.JSON);
     try (XContentParser p = xContent.createParser(NamedXContentRegistry.EMPTY, null, jsonStr)) {
@@ -126,7 +128,8 @@ public class SampleApplicationTests {
       .forEachOrdered(key -> System.out.println("  " + key + " = " + settings.get(key)));
   }
 
-  protected void printMappings(MappingMetaData mappings) throws IOException {
+  @SneakyThrows
+  protected void printMappings(MappingMetaData mappings) {
     System.out.println(prettyJson(mappings.source().toString()));
   }
 
@@ -142,7 +145,9 @@ public class SampleApplicationTests {
 
   protected Status rndStatus() { return Status.types().get(RND.plusInt(1)); }
 
-  static void deleteIndexes() throws IOException, InterruptedException {
+  @AfterAll
+  @SneakyThrows
+  static void deleteIndexes() {
     for (var index : ElasticSearch.indexes()) {
       var request = HttpRequest.newBuilder(URI.create("http://localhost:9200/" + index))
         .DELETE()
@@ -151,7 +156,8 @@ public class SampleApplicationTests {
     }
   }
 
-  protected void ins(VoiceActor... actors) throws IOException {
+  @SneakyThrows
+  protected void ins(VoiceActor... actors) {
     for (var actor : actors) {
       actorRegister.addActor(actor);
     }

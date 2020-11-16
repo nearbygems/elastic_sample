@@ -3,6 +3,7 @@ package kz.elastic.sample.impl;
 import kz.elastic.sample.elastic.ElasticSearch;
 import kz.elastic.sample.model.VoiceActor;
 import kz.elastic.sample.register.ActorRegister;
+import lombok.SneakyThrows;
 import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
@@ -17,7 +18,6 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,8 @@ import java.util.List;
 public class ActorRegisterImpl implements ActorRegister {
 
   @Override
-  public void addActor(VoiceActor actor) throws IOException {
+  @SneakyThrows
+  public void addActor(VoiceActor actor) {
 
     var json = XContentFactory.jsonBuilder();
 
@@ -48,7 +49,8 @@ public class ActorRegisterImpl implements ActorRegister {
   }
 
   @Override
-  public List<VoiceActor> searchActor(String search) throws IOException {
+  @SneakyThrows
+  public List<VoiceActor> searchActor(String search) {
 
     var searchResponse = requestSearchResponse(search);
 
@@ -66,7 +68,8 @@ public class ActorRegisterImpl implements ActorRegister {
 
   }
 
-  private SearchResponse requestSearchResponse(String search) throws IOException {
+  @SneakyThrows
+  private SearchResponse requestSearchResponse(String search) {
 
     var query = makeSearchQuery(search);
 

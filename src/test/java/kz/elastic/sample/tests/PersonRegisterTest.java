@@ -7,13 +7,12 @@ import kz.elastic.sample.model.DevilFruit;
 import kz.elastic.sample.model.Person;
 import kz.elastic.sample.model.VoiceActor;
 import kz.elastic.sample.register.PersonRegister;
+import lombok.SneakyThrows;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,7 +24,8 @@ public class PersonRegisterTest extends SampleApplicationTests {
   // endregion
 
   @Test
-  void addPerson() throws IOException {
+  @SneakyThrows
+  void addPerson() {
 
     var person = rndPerson();
 

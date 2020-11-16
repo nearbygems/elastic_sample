@@ -6,6 +6,7 @@ import kz.elastic.sample.model.VoiceActor;
 import kz.elastic.sample.register.ActorRegister;
 import kz.elastic.sample.util.Ids;
 import kz.greetgo.util.RND;
+import lombok.SneakyThrows;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -13,7 +14,6 @@ import org.elasticsearch.client.indices.GetIndexRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +26,8 @@ public class ActorRegisterImplTest extends SampleApplicationTests {
   // endregion
 
   @Test
-  void addActor() throws IOException {
+  @SneakyThrows
+  void addActor() {
 
     var actor = rndActor();
 
@@ -60,7 +61,8 @@ public class ActorRegisterImplTest extends SampleApplicationTests {
   }
 
   @Test
-  void searchActor() throws IOException {
+  @SneakyThrows
+  void searchActor() {
 
     var search = RND.str(5);
 
