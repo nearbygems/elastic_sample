@@ -1,0 +1,701 @@
+{
+  "settings": {
+    "index":      {
+      "number_of_shards":   3,
+      "number_of_replicas": 2
+    },
+    "similarity": {
+      "default": {
+        "type": "boolean"
+      }
+    },
+    "analysis":   {
+      "filter":   {
+        "russian_stop":    {
+          "type":      "stop",
+          "stopwords": "_russian_"
+        },
+        "russian_stemmer": {
+          "dictionary":   "ru_RU.dic",
+          "type":         "hunspell",
+          "locale":       "ru_RU",
+          "dedup":        true,
+          "longest_only": false
+        },
+        "english_stop":    {
+          "type":      "stop",
+          "stopwords": "_english_"
+        },
+        "english_stemmer": {
+          "dictionary":   "en_US.dic",
+          "type":         "hunspell",
+          "locale":       "en_US",
+          "dedup":        true,
+          "longest_only": false
+        },
+        "graph_synonyms":  {
+          "type":          "synonym_graph",
+          "synonyms_path": "hunspell/synonyms.txt"
+        }
+      },
+      "analyzer": {
+        "catalog": {
+          "type":      "custom",
+          "tokenizer": "standard",
+          "filter":    [
+            "lowercase",
+            "english_stop",
+            "english_stemmer",
+            "russian_stop",
+            "russian_stemmer",
+            "graph_synonyms",
+            "remove_duplicates"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "name":            {
+        "type":           "text",
+        "analyzer":       "catalog",
+        "index_prefixes": {
+          "min_chars": 1,
+          "max_chars": 10
+        },
+        "fields":         {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "server":          {
+        "type":           "text",
+        "analyzer":       "catalog",
+        "index_prefixes": {
+          "min_chars": 1,
+          "max_chars": 10
+        },
+        "fields":         {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "comment":         {
+        "type":           "text",
+        "analyzer":       "catalog",
+        "index_prefixes": {
+          "min_chars": 1,
+          "max_chars": 10
+        },
+        "fields":         {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "description":     {
+        "type":           "text",
+        "analyzer":       "catalog",
+        "index_prefixes": {
+          "min_chars": 1,
+          "max_chars": 10
+        },
+        "fields":         {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "isActive":        {
+        "type": "boolean",
+        "fields":         {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "isActual":        {
+        "type": "boolean",
+        "fields":         {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "id":              {
+        "type": "keyword"
+      },
+      "system":          {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "periodicity":     {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "releaseStage":    {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "tags":            {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "jiraTicket":      {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "storageTime":     {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "startTime":       {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "schedule":        {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "path":            {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "gitUrl":          {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "confluenceUrl":   {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "parents":         {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "children":        {
+        "type":   "keyword",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "dagId":           {
+        "type": "long"
+      },
+      "repeatQuantity":  {
+        "type": "long"
+      },
+      "createdAt":       {
+        "type": "date"
+      },
+      "lastModifiedAt":  {
+        "type": "date"
+      },
+      "docType":         {
+        "properties": {
+          "type":    {
+            "type": "keyword"
+          },
+          "subType": {
+            "type": "keyword"
+          }
+        }
+      },
+      "stagings":        {
+        "type":       "nested",
+        "properties": {
+          "name":           {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "dataSourceName": {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "description":    {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "workId":         {
+            "type": "long"
+          },
+          "outputs":        {
+            "type":       "nested",
+            "properties": {
+              "system":  {
+                "type":           "text",
+                "analyzer":       "catalog",
+                "index_prefixes": {
+                  "min_chars": 1,
+                  "max_chars": 10
+                },
+                "fields":         {
+                  "raw": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "storage": {
+                "type":           "text",
+                "analyzer":       "catalog",
+                "index_prefixes": {
+                  "min_chars": 1,
+                  "max_chars": 10
+                },
+                "fields":         {
+                  "raw": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "host":    {
+                "type":           "text",
+                "analyzer":       "catalog",
+                "index_prefixes": {
+                  "min_chars": 1,
+                  "max_chars": 10
+                },
+                "fields":         {
+                  "raw": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "port":    {
+                "type": "keyword"
+              }
+            }
+          },
+          "inputs":         {
+            "type":       "nested",
+            "properties": {
+              "system":  {
+                "type":           "text",
+                "analyzer":       "catalog",
+                "index_prefixes": {
+                  "min_chars": 1,
+                  "max_chars": 10
+                },
+                "fields":         {
+                  "raw": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "storage": {
+                "type":           "text",
+                "analyzer":       "catalog",
+                "index_prefixes": {
+                  "min_chars": 1,
+                  "max_chars": 10
+                },
+                "fields":         {
+                  "raw": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "host":    {
+                "type":           "text",
+                "analyzer":       "catalog",
+                "index_prefixes": {
+                  "min_chars": 1,
+                  "max_chars": 10
+                },
+                "fields":         {
+                  "raw": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "port":    {
+                "type": "keyword"
+              }
+            }
+          },
+          "columns":        {
+            "type":       "nested",
+            "properties": {
+              "name":        {
+                "type":           "text",
+                "analyzer":       "catalog",
+                "index_prefixes": {
+                  "min_chars": 1,
+                  "max_chars": 10
+                },
+                "fields":         {
+                  "raw": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "description": {
+                "type":           "text",
+                "analyzer":       "catalog",
+                "index_prefixes": {
+                  "min_chars": 1,
+                  "max_chars": 10
+                },
+                "fields":         {
+                  "raw": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "fieldType":   {
+                "type": "keyword"
+              },
+              "orderIndex":  {
+                "type": "long"
+              }
+            }
+          }
+        }
+      },
+      "businessClients": {
+        "type":       "nested",
+        "properties": {
+          "email":     {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "lastName":  {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "firstName": {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "analysts":        {
+        "type":       "nested",
+        "properties": {
+          "email":     {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "lastName":  {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "firstName": {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "managers":        {
+        "type":       "nested",
+        "properties": {
+          "email":     {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "lastName":  {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "firstName": {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "developers":      {
+        "type":       "nested",
+        "properties": {
+          "email":     {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "lastName":  {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "firstName": {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "responsible":     {
+        "type":       "nested",
+        "properties": {
+          "email":     {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "lastName":  {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "firstName": {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "owners":          {
+        "type":       "nested",
+        "properties": {
+          "email":     {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "lastName":  {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          },
+          "firstName": {
+            "type":           "text",
+            "analyzer":       "catalog",
+            "index_prefixes": {
+              "min_chars": 1,
+              "max_chars": 10
+            },
+            "fields":         {
+              "raw": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

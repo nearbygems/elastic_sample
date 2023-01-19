@@ -1,0 +1,77 @@
+{
+  "settings": {
+    "similarity": {
+      "default": {
+        "type": "boolean"
+      }
+    },
+    "analysis"  : {
+      "filter"  : {
+        "russian_stop"   : {
+          "type"     : "stop",
+          "stopwords": "_russian_"
+        },
+        "russian_stemmer": {
+          "dictionary"  : "ru_RU.dic",
+          "type"        : "hunspell",
+          "locale"      : "ru_RU",
+          "dedup"       : true,
+          "longest_only": false
+        },
+        "english_stop"   : {
+          "type"     : "stop",
+          "stopwords": "_english_"
+        },
+        "english_stemmer": {
+          "dictionary"  : "en_US.dic",
+          "type"        : "hunspell",
+          "locale"      : "en_US",
+          "dedup"       : true,
+          "longest_only": false
+        },
+        "graph_synonyms" : {
+          "type"         : "synonym_graph",
+          "synonyms_path": "hunspell/synonyms.txt"
+        }
+      },
+      "analyzer": {
+        "catalog": {
+          "type"     : "custom",
+          "tokenizer": "standard",
+          "filter"   : [
+            "lowercase",
+            "english_stop",
+            "english_stemmer",
+            "russian_stop",
+            "russian_stemmer",
+            "graph_synonyms",
+            "remove_duplicates"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id"         : {
+        "type": "keyword"
+      },
+      "name"       : {
+        "type": "keyword"
+      },
+      "system"     : {
+        "type": "keyword"
+      },
+      "type"       : {
+        "type": "keyword"
+      },
+      "description": {
+        "type"    : "text",
+        "analyzer": "catalog"
+      },
+      "isActual"   : {
+        "type": "boolean"
+      }
+    }
+  }
+}

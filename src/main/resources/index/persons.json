@@ -1,0 +1,26 @@
+{
+  "mappings": {
+    "properties": {
+      "id"       : {
+        "type": "keyword"
+      },
+      "email"    : {
+        "type": "text"
+      },
+      "firstName": {
+        "type": "text"
+      },
+      "lastName" : {
+        "type"  : "text",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        }
+      },
+      "username" : {
+        "type": "text"
+      }
+    }
+  }
+}
